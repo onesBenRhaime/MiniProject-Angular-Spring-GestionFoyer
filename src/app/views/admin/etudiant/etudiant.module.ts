@@ -9,7 +9,7 @@ import { UpdateEtudiantComponent } from './update-etudiant/update-etudiant.compo
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -37,7 +37,6 @@ import { MaEtudiantdirectiveDirective } from './madirective.directive';
     CommonModule,
     EtudiantRoutingModule,
     FormsModule,
-    PdfViewerModule,
     MatPaginatorModule, 
     NgxPaginationModule,
     Ng2SearchPipeModule,
