@@ -1,0 +1,20 @@
+<div
+  class="card-body justify-content-center align-items-center"
+  style="background-color: white"
+>
+  <div class="">
+    <div class="row">
+      <div class="" *ngIf="foyer">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-text">Nom de foyer:{{ foyer.nomFoyer }}</p>
+            <p class="card-text">Capacité de foyer:{{ foyer.capaciteFoyer }}</p>
+            <p class="card-text">id de foyer:{{ foyer.idFoyer }}</p>
+            <p class="card-text">Nom d'universite:{{ foyer.universite.nomUniversite }}</p>
+            <a class="btn btn-primary btn-round" (click)="closeDialog()"> Fermer </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

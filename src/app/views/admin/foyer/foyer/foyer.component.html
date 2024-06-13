@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap">
+
+<div class="mt-5">
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <div class="row">
+ 
+              <h1 class="col-8">Liste des foyers</h1>
+              <a
+                class="col-1 btn btn-success mx-2"
+                (click)="ajouter()"
+                routerLink="AjouterFoyer"
+                type="button"
+                ><span class="material-icons"> add </span>
+              </a>
+
+              <a class="col-1 btn btn-warning mx-2" (click)="AjouterExcel()"
+                ><span class="material-icons"> file_download </span>
+              </a>
+              <a (click)="Ajouterpdf()" class="col-1 btn btn-secondary"
+                ><span class="material-icons"> picture_as_pdf </span>
+              </a>
+            </div>
+            <div class="row my-3">
+              <div class="search-hero">
+                <div class="input-group">
+                  <span class="input-group-text text-body"
+                    ><i class="fas fa-search" aria-hidden="true"></i
+                  ></span>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="search"
+                    [(ngModel)]="tableSearchText"
+                    autocomplete="off"
+                    placeholder="Rechercher un foyer..."
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table
+                class="table table-vcenter table-mobile-md card-table"
+                border="1"
+              >
+                <thead>
+                  <tr>
+                    <th>Nom de foyer</th>
+                    <th>Capacite de foyer</th>
+                    <th>Nom d'universite</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let foyers of foyer
+                        | filter : tableSearchText
+                        | paginate
+                          : {
+                              itemsPerPage: tableSize,
+                              currentPage: page,
+                              totalItems: count
+                            };
+                      let i = index
+                    "
+                    appHighlight
+                  >
+                  <td class="col">
+                    <i class="fa fa-home  fa-2x mx-1"></i>
+                    <span>{{ foyers.nomFoyer }}</span>
+                  </td>                    
+                  <td>{{ foyers.capaciteFoyer }}</td>
+                    <td *ngIf="foyers.universite != null; else nullDisplay">
+                      <span class="badge badge-sm bg-gradient-success" style="    --bs-badge-padding-x: 1rem;
+                      --bs-badge-padding-y: 0.5rem;">
+                        
+                        {{ foyers.universite.nomUniversite }}</span
+                      >
+                    </td>
+                    <ng-template #nullDisplay>
+                      <td>
+                        <span style="    --bs-badge-padding-x: 1rem;
+                        --bs-badge-padding-y: 0.5rem;"
+                      class="badge badge-sm bg-gradient-warning">
+                          Non affecté
+                      </span>
+                      </td>
+                    </ng-template>
+                    <td class="col">
+                      <a class="btn text-secondary" (click)="openBlocShowForm(foyers)" style="margin-right: 5px;">
+                        <span class="material-icons">visibility</span>
+                      </a>
+                      <a class="btn text-success" (click)="saveDataLocal(foyers.universite)"
+                        [routerLink]="['ModifierFoyer', foyers.idFoyer, foyers.nomFoyer, foyers.capaciteFoyer]"
+                        style="margin-right: 5px;">
+                        <span class="material-icons"> edit </span>
+                      </a>
+                      <a class="btn text-danger" (click)="deleteFoyer(foyers.idFoyer)" style="margin-right: 5px;">
+                        <span class="material-icons"> delete </span>
+                      </a>
+                      <a class="btn text-black-50" (click)="showlistebloc(foyers, foyers.capaciteFoyer)"
+                        data-bs-toggle="modal" data-bs-target="#blocModal" style="margin-right: 5px;">
+                        <span class="material-icons"> list </span>
+                      </a>
+                      <a class="btn btn-dribbble"
+                        [routerLink]="['AssignerBlocs', foyers.idFoyer, foyers.capaciteFoyer, foyers.blocs.length]"
+                        style="
+                     background-image: linear-gradient(201deg, #7a8e85, #a7b3ad, #ccd5de, #dbdbdb);
+                        ">
+                        Assigner Blocs
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <pagination-controls
+                previousLabel="Prev"
+                nextLabel="Next"
+                (pageChange)="onTableDataChange($event)"
+              ></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- code pour afficher modal de button afficher -->
+<div class="modal" tabindex="-1" role="dialog" id="blocModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Rechercher un bloc.."
+          [(ngModel)]="searchText"
+          #ngModel="ngModel"
+        />
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px; overflow-y: auto">
+        <div
+          *ngIf="bloc.length > 0  else non"
+        >
+          <h3 style="color: green">
+            Vous avez la possibilité d'ajouter un maximum de
+            {{ capaciteFoyerSended - bloc.length }} blocs supplémentaires.
+          </h3>
+          <p>Liste de bloc :</p>
+          <ul>
+            <!-- Your ngFor loop for displaying modal content -->
+            <li *ngFor="let b of bloc | filter : searchText">
+              {{ b.nomBloc }}
+            </li>
+          </ul>
+        </div>
+        <ng-template #non>
+          <td>
+            <a style="color: rgb(134, 14, 14); align-items: center">
+              Aucun bloc n'a été attribué à ce foyer.
+            </a>
+          </td>
+        </ng-template>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

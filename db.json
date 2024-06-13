@@ -1,0 +1,21 @@
+{
+  "user": [
+    {
+      "id": "moataz",
+      "email": "ahmed.jemai@esprit.tn",
+      "name": "foudhaili",
+      "gender": "male",
+      "role": "user",
+      "password": "112233"
+    },
+    {
+      "id": "OnsBenRH",
+      "name": "Ons Benrhaime",
+      "password": "Ca1920..@@",
+      "email": "ahmed.jemai@esprit.tn",
+      "gender": "female",
+      "role": "user",
+      "cin": "44444444"
+    }
+  ]
+}

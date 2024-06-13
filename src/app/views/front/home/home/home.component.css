@@ -1,0 +1,42 @@
+@keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  .welcome-text {
+    animation: fadeInOut 2s ease-in-out infinite;
+    font-size: 3em; }
+
+
+  .btn:hover {
+    color:white; 
+    background-color:black;
+  }
+  .text-container {
+    margin-top: 100px;
+  }
+  
+  .image-container {
+    margin-top: 50px;
+    
+  }
+  .custom-bg {
+    background-color: rgb(248, 245, 245);
+  }
+.big-font {
+    font-size: 2.3rem; 
+    font-weight: bold; 
+    color: #333; }
+  
+
+  .custom-text-white ul li a {
+    color: white;
+  }
+.custom-icon-size i {
+    font-size: 30px; 
+  }
+  

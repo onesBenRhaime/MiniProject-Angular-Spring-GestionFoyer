@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .login-card {
+            max-width: 700px;
+            margin: 300px auto;
+            background: linear-gradient(to right, #292b2c, #929292);
+            /* Utilisation d'un dégradé de couleurs */
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+            /* Ombre légère */
+            color: white;
+        }
+
+        .example-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+        }
+
+        .example-full-width {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-button {
+            margin-top: 40px;
+            background-color: #1a451b;
+        }
+    </style>
+
+</head>
+
+<body>
+    <main class="main-content mt-0">
+     <div
+        class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+        style="
+          background-image: url('assets/img/bg-profile.jpg');
+          background-position: top;
+          position: relative;
+        "
+      >
+        <span class="mask bg-gradient-white opacity-6"></span>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 text-center mx-auto">
+              <h1 class="text-white mb-2 mt-5 welcome-text">Bienvenue!</h1>
+              <p class="text-lead text-white mt-3">
+                Explorez les differents Foyers, Blocs, Chambres et faites vos
+                réservations en quelques clics
+                <br />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="container">
+            <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center" *ngIf="dialogCode==false && OpenNewMotePasse==false">
+                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                    <div class="card z-index-0">
+                        <div class="card-header pb-0 text-start">
+                            <h4 class="font-weight-bolder" style="margin-left:60px">Réinitialiser votre mot de passe
+                            </h4>
+                            <p class="mb-0"></p>
+                        </div>
+                        <div class="card-body">
+                       
+                            <form class="login-form" [formGroup]="loginform" (ngSubmit)="ReinitialiserPass()">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>email</mat-label>
+                                    <input matInput formControlName="email">
+                                </mat-form-field>
+
+                               
+                                <div class="button-container">
+                                    <button mat-raised-button color="primary">Réinitialiser</button>
+                                </div>
+                            </form>
+                            <p *ngIf="NoExistedMail==true">this email n'existe pas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" *ngIf="dialogCode">
+            <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                    <div class="card z-index-0">
+                        <div class="card-header pb-0 text-start">
+                            <h4 class="font-weight-bolder" style="margin-left:35px">code de verification envoyer par
+                                email
+                            </h4>
+                            <p class="mb-0"></p>
+                        </div>
+                        <div class="card-body">
+                            <form class="login-form" [formGroup]="loginform" (ngSubmit)="verifierCode()">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Entrer code de verification</mat-label>
+                                    <input matInput formControlName="code">
+                                </mat-form-field>
+
+
+                                <div class="button-container">
+                                    <button mat-raised-button color="primary">verifier</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" *ngIf="OpenNewMotePasse">
+            <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                    <div class="card z-index-0">
+                        <div class="card-header pb-0 text-start">
+                            <h4 class="font-weight-bolder" style="margin-left:35px">Entrer nouveau mote de passe
+                            </h4>
+                            <p class="mb-0"></p>
+                        </div>
+                        <div class="card-body">
+                            <form class="login-form" [formGroup]="loginform" (ngSubmit)="changerPassword()">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Mot de passe</mat-label>
+                                    <input matInput formControlName="password">
+                                </mat-form-field>
+                            
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Confirmer le mot de passe</mat-label>
+                                    <input matInput formControlName="confirmPassword">
+                                </mat-form-field>
+                            
+                                <div style="color:red" *ngIf="loginform.hasError('passwordMismatch')">
+                                    Les mots de passe ne correspondent pas.
+                                </div>
+                            
+                                <div class="button-container">
+                                    <button mat-raised-button color="primary" [disabled]="loginform.invalid">Changer le mot de passe</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

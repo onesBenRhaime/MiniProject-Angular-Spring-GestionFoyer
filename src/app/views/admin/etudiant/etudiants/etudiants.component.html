@@ -1,0 +1,151 @@
+<div class="mt-5">
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          
+          <div class="card-header pb-0">
+            <div class="row">
+              <h1 class="col-8 col-md-8 col-lg-8 col-xl-8 mb-md-0 mb-3">Liste des Etudiants</h1>
+              <div class="col-4 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-end mb-md-0 mb-3">
+                <a class="btn btn-success mx-2"  routerLink="Ajouter">
+                  <span class="material-icons"> add </span>
+                </a>
+                <a (click)="printSimplePdf()" class="btn btn-secondary mx-2 ">
+                  <span class="material-icons"> picture_as_pdf </span>
+                </a>
+                <a (click)="exportToExcel()" class="btn btn-warning mx-2 ">
+                  <span class="material-icons"> insert_drive_file </span>
+                </a>
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-12 search-hero">
+                <div class="input-group">
+                <span class="input-group-text text-body"
+                    ><i class="fas fa-search" aria-hidden="true"></i
+                  ></span>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="search"
+                  [(ngModel)]="searchText"
+                  autocomplete="off"
+                  placeholder="Rechercher etudiant par nom prenom ecole cin"
+                />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table table-vcenter table-mobile-md card-table">
+                <thead>
+                  <tr>
+                    <th>nomEt</th>
+                    <th>prenomEt</th>
+                    <th>cin</th>
+                    <th>ecole</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    appMadirective
+                    *ngFor="
+                      let etudiants of etudiant
+                        | filter : searchText
+                        | paginate
+                          : {
+                              itemsPerPage: tableSize,
+                              currentPage: page,
+                              totalItems: count
+                            };
+                      let i = index
+                    "
+                  >
+                    <td>{{ etudiants.nomEt }}</td>
+                    <td>{{ etudiants.prenomEt }}</td>
+                    <td>{{ etudiants.cin }}</td>
+                    <td>{{ etudiants.ecole }}</td>
+                    <td>{{ etudiants.dateNaissance }}</td>
+
+                    <td class="col">
+                      <a
+                        class="btn text-ingo"
+                        (click)="openBlocShowForm(etudiants)"
+                        ><span class="material-icons"> visibility </span></a
+                      >
+
+                      <a
+                        class="btn text-danger"
+                        (click)="deleteEtudiant(etudiants.idEtudiant)"
+                      >
+                        <span class="material-icons"> delete_outline </span>
+                      </a>
+                      <a
+                        [routerLink]="[
+                          'Update',
+                          etudiants.idEtudiant,
+                          etudiants.nomEt,
+                          etudiants.prenomEt,
+                          etudiants.cin,
+                          etudiants.ecole,
+                          etudiants.dateNaissance
+                        ]"
+                        class="btn text-danger"
+                      >
+                        <span class="material-icons"> edit </span>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- code pour afficher modal de button afficher -->
+<div class="modal" tabindex="-1" role="dialog" id="blocModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Rechercher un bloc.."
+        />
+        <p>You typed: {{ searchText }}</p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Liste de bloc :</p>
+        <ul></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+  ></pagination-controls>
+</div>

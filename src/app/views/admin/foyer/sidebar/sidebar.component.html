@@ -1,0 +1,48 @@
+<section>
+    <div *ngIf="!screenSize" class="bg-secondary sidebar">
+        <ul *ngIf="data.length != 0; else noMessagesTooltip">
+            <li *ngFor="let message of data, let i = index">
+                <div class="message text-white border-bottom border-white text-message"
+                    *ngIf="message.author === 'user'" style="cursor: default">
+                    <i class="fa-solid fa-user fa-Userhisory  mx-2 mt-2"></i>
+                    {{ message.content }}
+                </div>
+            </li>
+        </ul>
+
+        <ng-template #noMessagesTooltip>
+            <div class="tooltip-message h6 mt-1 text-white">
+                No query to display
+            </div>
+        </ng-template>
+    </div>
+
+
+    <div class="sidebar-overlay mt-2 text-dark chat_History_container mb-5" *ngIf="screenSize"
+        [ngClass]="screenSize? 'sidebar-overlay': '' ">
+        <div class="card" style=" width: 75%;" [ngClass]="showMore? 'card2': 'card' ">
+            <ul *ngIf="data.length != 0; else noMessagesTooltip">
+                <div class="btn-group mt-4 mb-2 mx-4">
+                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                        (click)="showMoreChtHistory()">Show chat
+                    </button>
+                </div>
+                <div *ngIf="showMore">
+                    <li *ngFor="let message of data, let i = index" class="list-group-item">
+                        <div class="message border-bottom border-white text-message mx-3" *ngIf="message.author === 'user'"
+                        style="cursor: default;">
+                            <i class="fa-solid fa-user fa-Userhisory  mx-3 mt-2"></i>
+                            {{ message.content }}
+                        </div>
+                    </li>
+                </div>
+            </ul>
+
+            <ng-template #noMessagesTooltip>
+                <div class="tooltip-message h6 mt-1 mx-5 text-dark">
+                    No query to display
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</section>

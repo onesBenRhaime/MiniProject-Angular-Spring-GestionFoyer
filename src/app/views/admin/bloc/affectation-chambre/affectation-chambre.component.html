@@ -1,0 +1,22 @@
+
+
+<div class="container-lg">
+  <div class="row justify-content-center">
+    <div class="col-3">
+      <select [multiple]="true" [(ngModel)]="selectedChambres">
+        <option *ngFor="let chambre of chambres" [value]="chambre">
+          {{ chambre.numeroChambre }} ({{chambre.typeChambre}})
+        </option>
+      </select>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-4 offset-3">
+        <a (click)="affecter()" class="btn btn-behance btn-lg active align-items-end" role="button" aria-pressed="true">Affecter</a>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

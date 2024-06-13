@@ -1,0 +1,235 @@
+<!-- Section Ajout  -->
+<div class="mx-0 custom-background" *ngIf="action === 'add'">
+  <div class="card-body p-6" style="background-color: white">
+    <!-- Bouton Annuler -->
+    <div class="row justify-content-end">
+      <div class="form-group col-md-2 mt-3 text-end">
+        <button class="btn btn-primary btn-danger" (click)="onAnnulerClick()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="mx-3 my-1 custom-background">
+      <div class="card-body">
+        <form (ngSubmit)="saveUniversite()" #universiteForm="ngForm">
+          <div class="row">
+            <div class="mb-3">
+              <div class="form-group">
+                <label for="nomuniversite">Nom Université</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nomuniversite"
+                  name="nomuniversite"
+                  [(ngModel)]="universite.nomUniversite"
+                  required
+                  minlength="2"
+                  maxlength="20"
+                  [placeholder]="'Entrez le nom de l\'université'"
+                />
+                <div
+                  *ngIf="
+                    universiteForm.controls['nomuniversite'].invalid &&
+                    (universiteForm.controls['nomuniversite'].dirty ||
+                      universiteForm.controls['nomuniversite'].touched)
+                  "
+                  class="text-danger"
+                >
+                  Nom de l'université requis
+                </div>
+                <div
+                  *ngIf="
+                    universiteForm.controls['nomuniversite'].hasError(
+                      'minlength'
+                    ) && universiteForm.controls['nomuniversite'].dirty
+                  "
+                  class="text-danger"
+                >
+                  La longueur minimale du nom de l'université est de 2
+                  caractères.
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="form-group">
+                <label for="nomuniversite">Adresse Université</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="adresse"
+                  name="adresse"
+                  [(ngModel)]="universite.adresse"
+                  required
+                  minlength="2"
+                  [placeholder]="'Entrez l\'adresse de l\'université'"
+                />
+                <div
+                  *ngIf="
+                    universiteForm.controls['adresse'].invalid &&
+                    (universiteForm.controls['adresse'].dirty ||
+                      universiteForm.controls['adresse'].touched)
+                  "
+                  class="text-danger"
+                >
+                  Adresse de l'université requise
+                </div>
+                <div
+                  *ngIf="
+                    universiteForm.controls['adresse'].hasError('minlength') &&
+                    universiteForm.controls['adresse'].dirty
+                  "
+                  class="text-danger"
+                >
+                  La longueur minimale de l'adresse de l'université est de 2
+                  caractères.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3">
+              <div class="form-group">
+                <label>Choisir Foyer</label>
+                <select
+                  class="form-control"
+                  [(ngModel)]="idFoyer"
+                  [ngModelOptions]="{ standalone: true }"
+                  name="idFoyer"
+                >
+                  <option
+                    *ngFor="let foyer of Foyers"
+                    [ngValue]="foyer.idFoyer"
+                  >
+                    {{ foyer.nomFoyer }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 mt-3">
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!universiteForm.valid"
+                >
+                  Ajouter
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section update  -->
+<div class="mx-0 custom-background" *ngIf="action === 'update'">
+  <div class="card-body p-6" style="background-color: white">
+    <!-- Bouton Annuler -->
+    <div class="row justify-content-end">
+      <div class="form-group col-md-2 mt-3 text-end">
+        <button class="btn btn-primary btn-danger" (click)="onAnnulerClick()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="mx-3 my-1 custom-background">
+      <form (ngSubmit)="saveUniversite()" #universiteForm="ngForm">
+        <div class="row">
+          <div class="mb-3">
+            <div class="form-group">
+              <label for="nomuniversite">Nom Université</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nomuniversite"
+                name="nomuniversite"
+                [(ngModel)]="universite.nomUniversite"
+                required
+                [placeholder]="'Entrez le nom de l\'université'"
+              />
+              <div
+                *ngIf="
+                  universiteForm.controls['nomuniversite'].invalid &&
+                  (universiteForm.controls['nomuniversite'].dirty ||
+                    universiteForm.controls['nomuniversite'].touched)
+                "
+                class="text-danger"
+              >
+                Nom de l'université requis
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-group">
+              <label for="nomuniversite">Adresse Université</label>
+              <input
+                type="text"
+                class="form-control"
+                id="adresse"
+                name="adresse"
+                [(ngModel)]="universite.adresse"
+                required
+                [placeholder]="'Entrez l\'adresse de l\'université'"
+                minlength="3"
+                maxlength="50"
+              />
+              <div
+                *ngIf="
+                  universiteForm.controls['adresse'].invalid &&
+                  (universiteForm.controls['adresse'].dirty ||
+                    universiteForm.controls['adresse'].touched)
+                "
+                class="text-danger"
+              >
+                Adresse de l'université requise
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-11">
+            <div class="form-group">
+              <label>Choisir Foyer</label>
+              <select
+                class="form-control "
+                [(ngModel)]="idFoyer"
+                [ngModelOptions]="{ standalone: true }"
+                name="idFoyer"
+              >
+              <!-- <option [ngValue]="value">Sans foyer</option> -->
+                <option *ngFor="let foyer of Foyers" [ngValue]="foyer.idFoyer">
+                  {{ foyer.nomFoyer }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 mt-3">
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="onUpdate()"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- <button class="checkbox" (click)="toggleCheckbox()" [class.checked]="isChecked"></button> -->
+    <button class="btn btn-primary btn-danger material-icons" style="      margin-left: 639px;
+    margin-top: -264px;
+    
+"  (click)="onAnnulerFoyer()">delete</button>
+
+  </div>
+</div>
+

@@ -1,0 +1,12 @@
+
+.ajouter-universite-btn {
+    background-color: green; 
+    color: white;
+    border-radius: 5px; 
+}
+.liste-universites-title {
+    font-size: 24px; /* Taille de la police */
+    font-weight: bold; /* Poids de la police */
+    color: #333; /* Couleur du texte */
+    /* Ajoute d'autres styles selon tes préférences */
+}

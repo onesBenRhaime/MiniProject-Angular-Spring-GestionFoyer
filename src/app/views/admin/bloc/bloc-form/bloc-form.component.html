@@ -1,0 +1,223 @@
+<div class="card-body pt-2 pb-8" style="background-color: white">
+  <div class="container my-5" *ngIf="action === 'add'">
+    <div class="card-body">
+      <form role="form" #myForm="ngForm">
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="nomBloc"
+            name="nomBloc"
+            [(ngModel)]="blocToAdd.nomBloc"
+            required
+            minlength="3"
+            maxlength="20"
+            [placeholder]="'Entrez le nom du bloc'"
+          />
+          <div
+            *ngIf="
+              myForm.controls['nomBloc'].invalid &&
+              (myForm.controls['nomBloc'].dirty ||
+                myForm.controls['nomBloc'].touched)
+            "
+            class="text-danger"
+          >
+            Nom du bloc requis
+          </div>
+          <!--      <input type="text" class="form-control form-control-lg" aria-describedby="inputGroupPrepend" required [(ngModel)]="blocToAdd.nomBloc" placeholder="nomBloc" [ngModelOptions]="{standalone : true}" aria-label="Nom bloc">-->
+        </div>
+        <div class="mb-3">
+          <input
+            type="number"
+            class="form-control form-control-lg"
+            disabled
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="blocToAdd.capaciteBloc"
+            placeholder="capaciteBloc"
+            aria-label="Capacité"
+          />
+        </div>
+        <select
+          class="form-select-lg mb-3"
+          [(ngModel)]="idFoyer"
+          [ngModelOptions]="{ standalone: true }"
+          name="foyer"
+          aria-label="Default select example"
+        >
+          <option [value]="idFoyer" selected>Selectinner un foyer...</option>
+          <option *ngFor="let foyer of foyers" [value]="foyer.idFoyer">
+            {{ foyer.nomFoyer }}({{
+              foyer.universite != null && foyer.universite != undefined
+                ? foyer.universite.nomUniversite
+                : "Université inconnu"
+            }})
+          </option>
+        </select>
+        <div class="d-flex justify-content-evenly my-5">
+          <div class="text-center">
+            <button
+              type="button"
+              (click)="onInsert()"
+              class="btn btn-lg btn-outline-success btn-lg w-100 mt-4 mb-0"
+              [disabled]="!formIsValid()"
+            >
+              INSERT
+            </button>
+          </div>
+          <div class="text-center">
+            <button
+              type="button"
+              (click)="onCancel()"
+              class="btn btn-lg btn-outline-danger btn-lg w-100 mt-4 mb-0"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="mx-3 my-4" *ngIf="action === 'update' && bloc">
+    <div class="card-body">
+      <form role="form">
+        <div class="mb-3">
+          <div class="form-row">
+            <div class="col-md-4 mb-3"></div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="nomBloc"
+            [(ngModel)]="bloc.nomBloc"
+            required
+            minlength="3"
+            maxlength="20"
+            [placeholder]="'Entrez le nom du bloc'"
+          />
+          <div
+            *ngIf="
+              myForm.controls['nomBloc'].invalid &&
+              (myForm.controls['nomBloc'].dirty ||
+                myForm.controls['nomBloc'].touched)
+            "
+            class="text-danger"
+          >
+            Nom du bloc requis
+          </div>
+          <!--        <input [(ngModel)]="bloc.nomBloc" type="text" name="nomBloc" class="form-control form-control-lg" placeholder="Nom bloc" aria-label="Nom bloc" >-->
+          <div
+            class="invalid-feedback"
+            *ngIf="bloc.nomBloc && bloc.nomBloc.length == 0"
+          >
+            Please choose a username.
+          </div>
+        </div>
+        <div class="mb-3">
+          <input
+            [(ngModel)]="bloc.capaciteBloc"
+            type="number"
+            name="capaciteBloc"
+            class="form-control form-control-lg"
+            placeholder="Capacité"
+            aria-label="Capacité"
+          />
+        </div>
+        <select
+          class="form-select-lg mb-3"
+          [(ngModel)]="idFoyer"
+          [ngModelOptions]="{ standalone: true }"
+          name="foyer"
+          aria-label="Default select example"
+        >
+          <option [value]="0" selected>Selectinner un foyer...</option>
+          <option *ngFor="let foyer of foyers" [value]="foyer.idFoyer">
+            {{ foyer.nomFoyer }}({{
+            foyer.universite != null && foyer.universite != undefined
+              ? foyer.universite.nomUniversite
+              : "Université inconnu"
+            }})
+          </option>
+        </select>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-lg btn-outline-success btn-lg w-100 mt-4 mb-0"
+            (click)="onUpdate()"
+          >
+            UPDATE
+          </button>
+        </div>
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-lg btn-outline-danger btn-lg w-100 mt-4 mb-0"
+            (click)="onCancel()"
+          >
+            CANCEL
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="mx-5 my-5 justify-content-around" *ngIf="action == 'show'">
+    <h1
+      class="text-bold text-black-50 text-center"
+      *ngIf="chambres != undefined && bloc != undefined"
+    >
+      Bloc {{ bloc.nomBloc }}
+    </h1>
+    <div class="my-5" *ngIf="chambres != undefined && chambres.length > 0">
+      <div class="row">
+        <div class="col-sm-6" *ngFor="let chambre of chambres">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ chambre.numeroChambre }}</h5>
+              <p class="card-text">{{ chambre.typeChambre }}</p>
+              <a routerLink="/admin/chambre" class="btn btn-primary btn-round">Afficher chambre</a>
+              <a
+                *ngIf="bloc"
+                (click)="desaffecter(chambre, bloc)"
+                class="btn btn-danger btn-round"
+                >Désaffecter</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-10 my-5 mx-5"
+      *ngIf="chambres == undefined || chambres.length == 0"
+    >
+      <div class="card">
+        <div class="card-body justify-content-center align-content-center">
+          <h5 class="card-title">Pas de chambres affecté à ce bloc</h5>
+          <p class="card-text">
+            Affecter des chambres à ce bloc pour les voir ici
+          </p>
+          <p>
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              Affecter des chambres
+            </button>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <app-affectation-chambre
+                [blocFromParent]="bloc"
+                (myEvent)="handleEvent($event)"
+              ></app-affectation-chambre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

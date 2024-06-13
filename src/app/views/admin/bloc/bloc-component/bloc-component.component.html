@@ -1,0 +1,106 @@
+<div class="mt-5">
+  <div class="col">
+    <div class="container-fluid py-4 ">
+    </div>
+      <div class="col-12 mx-1">
+
+        <div class="card mb-2">
+          <div class="card-body ">
+                <div class="row mx-1">
+      <div class="row align-items-center">
+        <h1 class="col-9">Liste des blocs</h1>
+        <div class="col-3 d-flex justify-content-end">
+          <div class="z-index-sticky">
+            <button class="col-1 btn btn-success btn-icon mx-2" (click)="openBlocAddForm()">
+              <span class="material-icons"> add </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col my-4">
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+          <div class="input-group">
+            <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+            <input type="text" [(ngModel)]="searchTerm" class="form-control"
+              placeholder="Rechercher des bloc par nom..." />
+          </div>
+        </div>
+      </div>
+            <div class="table-responsive p-0">
+              <table class="table table-vcenter table-mobile-md card-table" border="1">
+                <thead>
+                  <tr>
+                    <!--                  <th>Id Bloc</th>-->
+                    <th>Nom Bloc</th>
+                    <th>Capacite</th>
+                    <th>Action</th>
+                    <th>Gestion des chambres</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="blocs != null && (blocs.length > 0)">
+                  <tr *ngFor="let bloc of blocs | filterByBlocName : searchTerm | paginate: {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };" appHighlight>
+                    <th>
+                      <p>{{bloc.nomBloc}}</p>
+                    </th>
+                    <td>{{bloc.capaciteBloc}} </td>
+                    <td class="col">
+                      <a class="btn text-success" (click)="openBlocShowForm(bloc)">
+                        <span class="material-icons"> expand </span></a>
+                      <a class="btn text-warning" (click)="openBlocUpdateForm(bloc)">
+                        <span class="material-icons"> edit </span></a>
+                      <a class="btn text-danger" *ngIf="bloc.idBloc != undefined"
+                        (click)="deleteItem(bloc.idBloc.toString())">
+                        <span class="material-icons"> delete </span></a>
+                    </td>
+                    <td>
+                      <p>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                          [attr.data-bs-target]="'#collapseExample' + bloc.idBloc" aria-expanded="false"
+                          aria-controls="collapseExample">
+                          Affecter des chambres
+                        </button>
+                      </p>
+                      <div class="collapse" [id]="'collapseExample' + bloc.idBloc">
+                        <div class="card card-body">
+                          <app-affectation-chambre [blocFromParent]="bloc"></app-affectation-chambre>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="!blocs">
+                  <tr>
+                    <td class="row-cols-lg-1">
+                      <p class="alert alert-danger">ERROR GETTING BLOCKS</p>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="blocs!=null && !(blocs.length > 0)">
+                  <tr>
+                    <td>
+                      Blocs will show here after you add them.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <!-- pagination-->
+                <div class="pagination-container d-flex justify-content-start">
+                  <pagination-controls previousLabel="Previous" nextLabel="Next"
+                    (pageChange)="onTableDataChange($event)" class="mat-paginator my-custom-pagination"
+                    style="color: black"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

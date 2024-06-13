@@ -1,0 +1,155 @@
+<style>
+  .login-card {
+    max-width: 700px;
+    margin: 300px auto;
+    background: linear-gradient(
+      to right,
+      #292b2c,
+      #929292
+    ); /* Utilisation d'un dégradé de couleurs */
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2); /* Ombre légère */
+    color: white;
+  }
+
+  .example-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+  }
+
+  .example-full-width {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-button {
+    margin-top: 40px;
+    background-color: #1a451b;
+  }
+</style>
+<div
+  class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+  style="
+    background-image: url('assets/img/bg-profile.jpg');
+    background-position: top;
+    position: relative;
+  "
+>
+  <span class="mask bg-gradient-white opacity-6"></span>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 text-center mx-auto">
+        <h1 class="text-white mb-2 mt-5 welcome-text">Bienvenue!</h1>
+        <p class="text-lead text-white mt-3">
+          Explorez les differents Foyers, Blocs, Chambres et faites vos
+          réservations en quelques clics
+          <br />
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+    <div class="col-xl-6 col-lg-7 col-md-8 mx-auto"> <!-- Adjusted column size for wider width -->
+      <div class="card z-index-0 "> <!-- Added login-card class -->
+        <div class="card-header text-center pt-4">
+          <h3 class="text-primary text-gradient font-weight-bold">
+            Creation d'un nouvel compte
+          </h3>
+        </div>
+
+        <div class="card-body">
+          <form
+            class="example-form"
+            [formGroup]="registerform"
+            (ngSubmit)="proceedregister()"
+          >
+            <div class="row mb-3"> <!-- Dividing form into rows -->
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Username</mat-label>
+                  <input matInput formControlName="id" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="name" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row mb-3"> <!-- Another row for the next input pairs -->
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Password</mat-label>
+                  <input type="password" matInput formControlName="password" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row mb-2"> <!-- Another row for the next input pairs -->
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Cin</mat-label>
+                  <input matInput formControlName="cin" />
+                </mat-form-field>
+              </div>  
+            </div>
+
+            <div class="form-group">
+              <label for="bloc_id_bloc">universite:</label>
+              <select class="form-control" id="bloc_id_bloc" name="bloc_id_bloc" [(ngModel)]="selectedUniv" [ngModelOptions]="{ standalone: true }">
+                <option *ngFor="let univ of universites" [ngValue]="univ">
+                  {{ univ.nomUniversite }}
+                </option>
+              </select>
+            </div>
+
+
+              <div class="col-md-4">
+                <mat-radio-group
+                  formControlName="gender"
+                  aria-label="Select an option"
+                  class="mx-2"
+                >
+                  <mat-radio-button value="male">Male</mat-radio-button>
+                  <mat-radio-button value="female">Female</mat-radio-button>
+                </mat-radio-group>
+              </div>
+          
+            
+              <div class="row mb-3">
+                <div class="col-md-12 d-flex justify-content-center">
+                  <!-- Button container -->
+                  <button mat-raised-button color="primary" class="mx-2">
+                    Submit
+                  </button>
+                  <a routerLink="/login" mat-raised-button color="black">
+                    Back to Login
+                  </a>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

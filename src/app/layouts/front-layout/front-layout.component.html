@@ -1,0 +1,91 @@
+<!-- Navbar -->
+<nav
+  class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4"
+>
+  <div class="container">
+    <a
+      class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white"
+      href="../pages/dashboard.html"
+    >
+      Campus Living Spaces
+    </a>
+    <button
+      class="navbar-toggler shadow-none ms-2"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navigation"
+      aria-controls="navigation"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon mt-2">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+      </span>
+    </button>
+    <div class="collapse navbar-collapse" id="navigation">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center me-2 active"
+            aria-current="page"
+            routerLink=""
+          >
+            <i class="fa fa-chart-pie opacity-6 me-1"></i>
+            Acceuil
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link me-2" routerLink="/profil">
+            <i class="fa fa-user opacity-6 me-1"></i>
+            Profile
+          </a>
+        </li>
+
+        <!-- Liens "Réservations" avec sous-menus -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle me-2"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i class="fas fa-key opacity-6 me-1"></i>
+            Réservations
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" routerLink="/user/ajouterReservation"
+              >Ajouter Réservation</a
+            >
+            <a class="dropdown-item" routerLink="/user/reservations"
+              >Mes Réservations</a
+            >
+          </div>
+        </li>
+        
+        <li class="nav-item" *ngIf="role == null">
+          <a class="nav-link me-2" routerLink="login">
+            <i class="fas fa-user-circle opacity-6 me-1"></i>
+           Connecter 
+          </a>
+        </li>
+        <li class="nav-item"  *ngIf="role != null">
+          <a  class="nav-link me-2 cursor-pointer"  (click)="deconnecter()">
+            <i class="fas fa-key opacity-6 me-1"></i>
+            Déconnecter
+          </a>
+        </li>
+      </ul>
+      <p
+      class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white">
+    <i class="ni ni-single-02 text-white text-sm opacity-10 mx-1"></i>
+      {{ username}}
+    </p>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

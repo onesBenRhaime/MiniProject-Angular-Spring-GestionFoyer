@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+      }
+
+      .card {
+        width: 50%;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+
+  <body>
+    <br />
+
+    <div class="card col-3">
+      <form (ngSubmit)="saveEtudiant()" #etudiantForm="ngForm">
+        <div class="form-group">
+          <label for="nom">Nom:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nom"
+            name="nom"
+            [(ngModel)]="etudiant.nomEt"
+            required
+            pattern="[a-zA-ZÀ-ÖØ-öø-ÿ\s]*"
+            #nomInput="ngModel"
+          />
+
+          <!-- Message d'erreur animé -->
+          <div
+            *ngIf="nomInput.invalid && (nomInput.dirty || nomInput.touched)"
+            style="
+              color: red;
+              font-size: 14px;
+              margin-top: 5px;
+              opacity: 1;
+              animation: fadeInOut 0.5s ease-out;
+            "
+          >
+            Le champ Nom doit contenir uniquement des lettres.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prenom">Prénom:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="prenom"
+            name="prenom"
+            [(ngModel)]="etudiant.prenomEt"
+            required
+            pattern="[a-zA-ZÀ-ÖØ-öø-ÿ\s]*"
+            #prenomInput="ngModel"
+          />
+
+          <!-- Message d'erreur animé -->
+          <div
+            *ngIf="
+              prenomInput.invalid && (prenomInput.dirty || prenomInput.touched)
+            "
+            style="
+              color: red;
+              font-size: 14px;
+              margin-top: 5px;
+              opacity: 1;
+              animation: fadeInOut 0.5s ease-out;
+            "
+          >
+            Le champ Prénom doit contenir uniquement des lettres.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cin">CIN:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cin"
+            name="cin"
+            [(ngModel)]="etudiant.cin"
+            required
+            pattern="[0-9]{8}"
+            #cinInput="ngModel"
+          />
+
+          <!-- Message d'erreur animé -->
+          <div
+            *ngIf="cinInput.invalid && (cinInput.dirty || cinInput.touched)"
+            style="
+              color: red;
+              font-size: 14px;
+              margin-top: 5px;
+              opacity: 1;
+              animation: fadeInOut 0.5s ease-out;
+            "
+          >
+            Le champ CIN doit obligatoirement comporter 8 chiffres.
+          </div>
+          
+            <div style="color: rgb(184, 6, 6);" *ngIf="verifierCin == true">
+              cin existe déja !
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="bloc_id_bloc"> universite:</label>
+          <select class="form-control" id="bloc_id_bloc" name="bloc_id_bloc" [(ngModel)]="selectedUniv" >
+          <option *ngFor="let univ of universites" [ngValue]="univ">
+            {{ univ.nomUniversite }}
+          </option>
+        </select>  
+        </div>
+
+          <!-- Message d'erreur animé
+          <div
+            *ngIf="
+              ecoleInput.invalid && (ecoleInput.dirty || ecoleInput.touched)
+            "
+            style="
+              color: red;
+              font-size: 14px;
+              margin-top: 5px;
+              opacity: 1;
+              animation: fadeInOut 0.5s ease-out;
+            "
+          >
+            Le champ École doit contenir uniquement des lettres.
+          </div>
+        </div> -->
+
+        <div class="form-group">
+          <label for="date">Date:</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            name="date"
+            [(ngModel)]="etudiant.dateNaissance"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!etudiantForm.valid"
+          routerLink="this.router.navigate(['admin/etudiant']);"
+        >
+          Ajouter
+        </button>
+      </form>
+
+    </div>
+  </body>
+</html>
